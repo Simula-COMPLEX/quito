@@ -1,6 +1,6 @@
 # Quito: a Coverage-Guided Test Generator for Quantum Programs
 
-<img src="https://github.com/qiqihannah/QuantumExpResults/blob/main/Quito/Logo.png" width="200">
+<img src="Logo.png" width="200">
 
 # Description
 Automation in quantum software testing is essential to support systematic and cost-effective testing. Towards this direction, we present a quantum software testing tool called Quito that can automatically generate test suites covering three coverage criteria defined on inputs and outputs of a quantum program coded in Qiskit, i.e., input coverage, output coverage, and input-output coverage. Quito also implements two types of test oracles based on program specifications, i.e., checking whether a quantum program produced a wrong output or checking a probabilistic test oracle with statistical test.
