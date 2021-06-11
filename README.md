@@ -16,11 +16,11 @@ and here
 
 -->
 
-<img src="https://github.com/qiqihannah/QuantumExpResults/blob/main/Quito/quito.png" width="800">
+<img src="https://github.com/qiqihannah/QuantumExpResults/blob/main/Quito/quito.png" width="1000">
 
 # Testing Process
 
-<img src="https://github.com/qiqihannah/QuantumExpResults/blob/main/Quito/algorithm.png" width="500">
+<img src="https://github.com/qiqihannah/QuantumExpResults/blob/main/Quito/algorithm.png" width="600">
 
 # Installation
 
