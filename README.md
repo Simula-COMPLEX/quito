@@ -51,7 +51,7 @@ and here
 - The code has to be structured in a function named as 'run' with one parameter that refers to the quantum circuit.
 - Users only need to add gates to the circuit and measure output qubits to get the output. They don't need to set any register, initialize circuits, choose the simulation, or execute the circuits in 'run' function.
 
-A sample circuit is available <a href="">here</a>.
+A sample circuit is available <a href="https://github.com/Simula-COMPLEX/quito/blob/main/sample/SWAP.py">here</a>.
 
 ### Configuration File
 The configuration file should be written in an INI file.
@@ -110,7 +110,7 @@ statistical_test=one-sample Wilcoxon signed rank test
 10,1=0.5
 10,0=0.5
 ```
-A sample configuration file is available <a href=""> here </a>.
+A sample configuration file is available <a href="https://github.com/Simula-COMPLEX/quito/blob/main/sample/configuration.ini"> here </a>.
 
 First, you need to activate the conda environment:
    ```
@@ -150,7 +150,7 @@ After running, you get 3 text files (2 in case there is no program specification
 A video demo is available <a href="https://www.youtube.com/watch?v=kuI9QaCo8A8" target=_blank>here</a>.
 
 # Experimental Data
-Experimental data including quantum programs, and program specifications can be downloaded <a href="">here</a>.
+Experimental data including quantum programs, and program specifications can be downloaded <a href="https://github.com/Simula-COMPLEX/quito/tree/main/Data_Exp">here</a>.
 
 # Extension
 One can checkout the code from GitHub and provide extensions to Quito.
