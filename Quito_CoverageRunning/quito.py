@@ -40,6 +40,10 @@ import importlib
 import time
 import warnings
 
+import logging
+from rpy2.rinterface_lib.callbacks import logger as rpy2_logger
+rpy2_logger.setLevel(logging.ERROR)   # will display errors, but not warnings
+
 
 
 def check_unique(l):
