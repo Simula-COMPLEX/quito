@@ -2,11 +2,11 @@
 
 <img src="Logo.png" width="200">
 
-# Description
+## Description
 Automation in quantum software testing is essential to support systematic and cost-effective testing. Towards this direction, we present a quantum software testing tool called Quito that can automatically generate test suites covering three coverage criteria defined on inputs and outputs of a quantum program coded in Qiskit, i.e., input coverage, output coverage, and input-output coverage. Quito also implements two types of test oracles based on program specifications, i.e., checking whether a quantum program produced a wrong output or checking a probabilistic test oracle with statistical test.
 
 
-# Architecture of Quito
+## Architecture of Quito
 
 
 <!---
@@ -18,11 +18,11 @@ and here
 
 <img src="quito.png" width="1000">
 
-# Testing Process
+## Testing Process
 
 <img src="algorithm.png" width="600">
 
-# Installation
+## Installation
 
 - Clone the current repository
   ```
@@ -45,7 +45,7 @@ and here
   pip install rpy2
   ```
 
-# How to use Quito?
+## How to use Quito?
 ### Quantum Program File
 - The quantum program should be written with Qiskit.
 - The code has to be structured in a function named as 'run' with one parameter that refers to the quantum circuit.
@@ -146,11 +146,11 @@ After running, you get 3 text files (2 in case there is no program specification
 - Test Execution Results
 - Assessment Results (for full and partial program specification)
 
-# Video Demonstration
+## Video Demonstration
 A video demo is available <a href="https://www.youtube.com/watch?v=kuI9QaCo8A8" target=_blank>here</a>.
 
-# Experimental Data
+## Experimental Data
 Experimental data including quantum programs, and program specifications can be downloaded <a href="Data_Exp">here</a>.
 
-# Extension
+## Extension
 One can checkout the code from GitHub and provide extensions to Quito.
