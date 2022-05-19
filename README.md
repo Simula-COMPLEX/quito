@@ -28,6 +28,7 @@ and here
   ```
   git clone https://github.com/Simula-COMPLEX/quito.git
   ```
+- Install R environment. You can download R for your OS from https://cran.r-project.org
 - Install Anaconda. You can download Anaconda for your OS from https://www.anaconda.com/
 <!---For example, for macOS
     ```
