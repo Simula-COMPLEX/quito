@@ -37,12 +37,12 @@ and here
     ```-->
 - Create a conda environment (e.g., with name "Quito"):
    ```
-   conda create -n Quito python=3.7
+   conda create -n Quito python=3.9
    ```
 - Activate the environment and install Qiskit and rpy2
   ```
   conda activate Quito
-  pip install qiskit==0.25
+  pip install qiskit
   pip install rpy2
   ```
 
