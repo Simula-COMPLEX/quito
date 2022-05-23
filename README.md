@@ -157,4 +157,4 @@ Experimental data including quantum programs, and program specifications can be 
 One can checkout the code from GitHub and provide extensions to Quito.
 
 ## Paper
-X. Wang, P. Arcaini, T. Yue, and S. Ali. Quito: a Coverage-Guided Test Generator for Quantum Programs. In 36th IEEE/ACM International Conference on Automated Software Engineering - Tool Demonstrations track
+X. Wang, P. Arcaini, T. Yue, and S. Ali. Quito: a Coverage-Guided Test Generator for Quantum Programs. In 36th IEEE/ACM International Conference on Automated Software Engineering - Tool Demonstrations track [[doi](https://doi.org/10.1109/ASE51524.2021.9678798)]
