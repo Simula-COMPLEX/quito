@@ -6,7 +6,7 @@ from qiskit import (
     execute,
     Aer,
 )
-# from rpy2 import robjects as robjects
+
 import numpy as np
 import os
 import sys
@@ -18,11 +18,6 @@ import time
 import warnings
 from scipy.stats import wilcoxon
 
-
-import logging
-# from rpy2.rinterface_lib.callbacks import logger as rpy2_logger
-# rpy2_logger.setLevel(logging.ERROR)   # will display errors, but not warnings
-
 K = 200
 M = 20
 BUDGET = 0
@@ -33,33 +28,6 @@ T2 = 0
 START = 0
 ROOT = '/'
 
-# warnings.filterwarnings('ignore')
-# print("".center(60, "="))
-# print('\n')
-# print("Welcome to Quito".center(60))
-# print('\n')
-# print("".center(60, "="))
-# user_choice = user_input()
-# while user_choice != '3':
-#     if user_choice != '1' and user_choice != '2':
-#         print("Error: Please type in '1', '2' or '3'.")
-#         user_choice = user_input()
-#     elif user_choice == '1':
-#         print("template")
-#         template_file()
-#         user_choice = user_input()
-#     elif user_choice == '2':
-#         print("example")
-#         example_file()
-#         user_choice = user_input()
-# if user_choice == '3':
-#     # start = time.time()
-#     quito_run()
-#     end = time.time()
-#     T1 = end - START
-#     print('\n')
-#     print("The total run time is " + "{:.2f}".format(T1) + "s.")
-#     print('The execution time of the quantum program is ' + "{:.2f}".format(T2) + "s.")
 
 def quito(
         con_file: str
@@ -187,63 +155,12 @@ def _wilcoxon(fre,p):
             pvalue.append(-1)
             res.append(-1)
         elif _check_same(fre[i],p[i]) == True:
-            # print('exactly the same')
             pvalue.append(1)
             res.append(1)
         else:
             fre_np = np.array(fre[i], dtype=float)
             result = wilcoxon(fre_np, correction=True, y=np.repeat(p[i], len(fre[i])))
-            # print('result of scipy: '+str(result[1]))
             pvalue.append(result[1])
-            # data = np.array(data, dtype=np.float)
-            # fre_r = robjects.FloatVector(fre[i])
-            # robjects.r('''
-            #             wtest<-function(data,exp,c_level){
-            #                 test_result <- wilcox.test(data, mu = exp, conf.int = TRUE, conf.level = 1-c_level)
-            #                 pvalue = test_result$p.value
-            #                 return (pvalue)
-            #             }
-            # ''')
-            # t = robjects.r['wtest'](fre_r, p[i], C_LEVEL)
-            # pvalue.append(t[0])
-            # print('R: '+str(t[0]))
-    # print(pvalue)
-    return pvalue
-
-def _wilcoxon_old(fre,p):
-    pvalue = []
-    res = []
-    for i in range(len(p)):
-        if np.isnan(fre[i]).any() == True:
-            pvalue.append(-1)
-            res.appen(-1)
-        elif _check_same(fre[i],p[i]) == True:
-            # print('exactly the same')
-            pvalue.append(1)
-            res.append((1))
-        else:
-            fre_np = np.array(fre[i], dtype=np.float)
-            result = wilcoxon(fre_np, correction=True, y=np.repeat(p[i], len(fre[i])))
-            print('result of scipy: '+str(result))
-            # data = np.array(data, dtype=np.float)
-            fre_r = robjects.FloatVector(fre[i])
-            robjects.r('''
-                        wtest<-function(data,exp,c_level){
-                            test_result <- wilcox.test(data, mu = exp, conf.int = TRUE, conf.level = 1-c_level)
-                            pvalue = test_result$p.value
-                            return (pvalue)
-                        }
-            ''')
-            t = robjects.r['wtest'](fre_r, p[i], C_LEVEL)
-            pvalue.append(t[0])
-            print('R: '+str(t[0]))
-            # print("r: "+str(pvalue))
-            # print(fre[i])
-            # print(p[i])
-            # p_list = [p[i]]*len(fre[i])
-            # res.append(wilcoxon(fre[i],p_list))
-            # print("p: " + str(res))
-
     return pvalue
 
 def _judge_ass_result(inputs, outputs, pvalue, f):
@@ -314,6 +231,7 @@ def _input_coverage(inputID, valid_input, valid_output, num_qubit, outputID, p, 
                         counts[mark][g] += 1
             input_file.write('\n')
             result_file.write('\n')
+    print('\n')
 
     result_file.write('The total number of test cases is '+ str(count_cases)+'.')
     result_file.write('\n')
@@ -403,6 +321,7 @@ def input_coverage_partial(inputID, valid_input, valid_output, num_qubit, output
                         counts[mark][g] += 1
             input_file.write('\n')
             result_file.write('\n')
+    print('\n')
 
     result_file.write('The total number of test cases is ' + str(count_cases) + '.')
     result_file.write('\n')
@@ -464,6 +383,7 @@ def input_coverage_no(inputID, outputID, num_qubit, module_name, program_folder)
                 result_file.write('(' + str(i) + ',' + str(o) + ')' + ' ')
             input_file.write('\n')
             result_file.write('\n')
+    print('\n')
     result_file.write('The total number of test cases is ' + str(count_cases) + '.')
     result_file.write('\n')
     result_file.write('The execution time of the quantum program is ' + "{:.2f}".format(T2) + "s.")
@@ -537,7 +457,7 @@ def output_coverage(inputID, valid_input, valid_output, num_qubit, outputID, p, 
                     break
             input_file.write('\n')
             result_file.write('\n')
-
+    print('\n')
     result_file.write('The total number of test cases is ' + str(count_cases) + '.')
     result_file.write('\n')
     result_file.write('The execution time of the quantum program is ' + "{:.2f}".format(T2) + "s.")
@@ -586,8 +506,6 @@ def output_coverage_partial(inputID, valid_input, valid_output, num_qubit, outpu
     fre = np.zeros((len(valid_input),M))
     input_full, output_full = _check_partial_ps(valid_input, valid_output, p)
     sum = np.zeros((len(all_inputs),M))
-    # print("input full:"+str(input_full))
-    # print("output full:"+str(output_full))
 
     input_file = open(resultFolder + 'INPUTS_output_coverage_'+module_name+'.txt', 'w')
     result_file = open(resultFolder + 'RESULTS_output_coverage_'+module_name+'.txt', 'w')
@@ -639,7 +557,7 @@ def output_coverage_partial(inputID, valid_input, valid_output, num_qubit, outpu
                     break
             input_file.write('\n')
             result_file.write('\n')
-
+    print('\n')
     result_file.write('The total number of test cases is ' + str(count_cases) + '.')
     result_file.write('\n')
     result_file.write('The execution time of the quantum program is ' + "{:.2f}".format(T2) + "s.")
@@ -653,13 +571,8 @@ def output_coverage_partial(inputID, valid_input, valid_output, num_qubit, outpu
             end = len(valid_input)
         else:
             end = input_index[i+1]
-        # print("start=" + str(start))
-        # print("end=" + str(end))
         for j in range(start, end):
             fre[j] = counts[j]/sum[int(valid_input[start],2)]
-        # print(sum)
-
-    # print(fre)
     pvalue = _wilcoxon(fre, p)
     _judge_ass_result(valid_input, valid_output, pvalue, ass_file)
 
@@ -716,6 +629,7 @@ def output_coverage_no(inputID, outputID, num_qubit, module_name, program_folder
                     break
             input_file.write('\n')
             result_file.write('\n')
+    print('\n')
     result_file.write('The total number of test cases is ' + str(count_cases) + '.')
     result_file.write('\n')
     result_file.write('The execution time of the quantum program is ' + "{:.2f}".format(T2) + "s.")
@@ -789,6 +703,7 @@ def input_output_coverage(inputID, valid_input, valid_output, num_qubit, outputI
             input_file.write('\n')
             result_file.write('\n')
             flag = np.zeros(len(valid_input))
+    print('\n')
     result_file.write('The total number of test cases is ' + str(count_cases) + '.')
     result_file.write('\n')
     result_file.write('The execution time of the quantum program is ' + "{:.2f}".format(T2) + "s.")
@@ -882,6 +797,7 @@ def input_output_coverage_partial(inputID, valid_input, valid_output, num_qubit,
                 flag = np.zeros(len(all_outputs))
             input_file.write('\n')
             result_file.write('\n')
+    print('\n')
     result_file.write('The total number of test cases is ' + str(count_cases) + '.')
     result_file.write('\n')
     result_file.write('The execution time of the quantum program is ' + "{:.2f}".format(T2) + "s.")
@@ -953,6 +869,7 @@ def input_output_coverage_no(inputID, outputID, num_qubit, module_name, program_
                 flag = np.zeros(len(all_outputs))
             input_file.write('\n')
             result_file.write('\n')
+    print('\n')
     result_file.write('The total number of test cases is ' + str(count_cases) + '.')
     result_file.write('\n')
     result_file.write('The execution time of the quantum program is ' + "{:.2f}".format(T2) + "s.")
