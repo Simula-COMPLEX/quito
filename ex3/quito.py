@@ -191,7 +191,7 @@ def _wilcoxon(fre,p):
             pvalue.append(1)
             res.append(1)
         else:
-            fre_np = np.array(fre[i], dtype=np.float)
+            fre_np = np.array(fre[i], dtype=float)
             result = wilcoxon(fre_np, correction=True, y=np.repeat(p[i], len(fre[i])))
             # print('result of scipy: '+str(result[1]))
             pvalue.append(result[1])
