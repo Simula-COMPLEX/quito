@@ -6,7 +6,7 @@ from qiskit import (
     execute,
     Aer,
 )
-from rpy2 import robjects as robjects
+# from rpy2 import robjects as robjects
 import numpy as np
 import os
 import sys
@@ -16,10 +16,12 @@ import os.path
 import importlib
 import time
 import warnings
+from scipy.stats import wilcoxon
+
 
 import logging
-from rpy2.rinterface_lib.callbacks import logger as rpy2_logger
-rpy2_logger.setLevel(logging.ERROR)   # will display errors, but not warnings
+# from rpy2.rinterface_lib.callbacks import logger as rpy2_logger
+# rpy2_logger.setLevel(logging.ERROR)   # will display errors, but not warnings
 
 K = 200
 M = 20
@@ -158,7 +160,7 @@ def _execute_quantum_program(inputID, outputID, num_qubit, i, module_name):
     module = importlib.import_module(module_name)
     run_method = getattr(module,"run")
     run_method(qc)
-    result = execute(qc, Aer.get_backend('qasm_simulator'), shots=1).result().get_counts(qc)
+    result = execute(qc, Aer.get_backend('aer_simulator'), shots=1).result().get_counts(qc)
     return result
 
 def _check_same(l,value):
@@ -179,16 +181,52 @@ def _check_WOO(i, o , valid_inputs, valid_outputs):
 
 def _wilcoxon(fre,p):
     pvalue = []
+    res = []
     for i in range(len(p)):
         if np.isnan(fre[i]).any() == True:
             pvalue.append(-1)
+            res.append(-1)
         elif _check_same(fre[i],p[i]) == True:
             # print('exactly the same')
             pvalue.append(1)
+            res.append(1)
         else:
+            fre_np = np.array(fre[i], dtype=np.float)
+            result = wilcoxon(fre_np, correction=True, y=np.repeat(p[i], len(fre[i])))
+            # print('result of scipy: '+str(result[1]))
+            pvalue.append(result[1])
+            # data = np.array(data, dtype=np.float)
+            # fre_r = robjects.FloatVector(fre[i])
+            # robjects.r('''
+            #             wtest<-function(data,exp,c_level){
+            #                 test_result <- wilcox.test(data, mu = exp, conf.int = TRUE, conf.level = 1-c_level)
+            #                 pvalue = test_result$p.value
+            #                 return (pvalue)
+            #             }
+            # ''')
+            # t = robjects.r['wtest'](fre_r, p[i], C_LEVEL)
+            # pvalue.append(t[0])
+            # print('R: '+str(t[0]))
+    # print(pvalue)
+    return pvalue
+
+def _wilcoxon_old(fre,p):
+    pvalue = []
+    res = []
+    for i in range(len(p)):
+        if np.isnan(fre[i]).any() == True:
+            pvalue.append(-1)
+            res.appen(-1)
+        elif _check_same(fre[i],p[i]) == True:
+            # print('exactly the same')
+            pvalue.append(1)
+            res.append((1))
+        else:
+            fre_np = np.array(fre[i], dtype=np.float)
+            result = wilcoxon(fre_np, correction=True, y=np.repeat(p[i], len(fre[i])))
+            print('result of scipy: '+str(result))
+            # data = np.array(data, dtype=np.float)
             fre_r = robjects.FloatVector(fre[i])
-            # print('fre='+str(fre[i]))
-            # print('p='+str(p[i]))
             robjects.r('''
                         wtest<-function(data,exp,c_level){
                             test_result <- wilcox.test(data, mu = exp, conf.int = TRUE, conf.level = 1-c_level)
@@ -198,7 +236,14 @@ def _wilcoxon(fre,p):
             ''')
             t = robjects.r['wtest'](fre_r, p[i], C_LEVEL)
             pvalue.append(t[0])
-    #print(pvalue)
+            print('R: '+str(t[0]))
+            # print("r: "+str(pvalue))
+            # print(fre[i])
+            # print(p[i])
+            # p_list = [p[i]]*len(fre[i])
+            # res.append(wilcoxon(fre[i],p_list))
+            # print("p: " + str(res))
+
     return pvalue
 
 def _judge_ass_result(inputs, outputs, pvalue, f):
@@ -293,6 +338,8 @@ def _input_coverage(inputID, valid_input, valid_output, num_qubit, outputID, p, 
         sum = np.zeros(M)
 
     #print(fre)
+    # print(fre)
+    # print(p)
     pvalue = _wilcoxon(fre,p)
     _judge_ass_result(valid_input, valid_output, pvalue, ass_file)
 
@@ -995,7 +1042,7 @@ def _quito_run(root_con):
     if ps_category != 'no' and ps_category != 'partial' and ps_category != 'full':
         print("Error: The format of program specification category is wrong.")
         _end_running()
-    print(ps_category)
+    # print(ps_category)
     #get quantum program
     root = config.get('program','root')
     # print(root)
@@ -1020,7 +1067,7 @@ def _quito_run(root_con):
 
     #ps_category = config.get('program_specification_category','ps_category')
     coverage_criterion = config.get('quito_configuration', 'coverage_criterion')
-    print(coverage_criterion)
+    # print(coverage_criterion)
     if coverage_criterion != 'IC' and coverage_criterion != 'OC' and coverage_criterion != 'IOC':
         print("Error: The format of coverage criterion is not right.")
         _end_running()
