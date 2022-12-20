@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -p defq
+#SBATCH -p dgx2q
 #SBATCH --job-name=Quito
 #SBATCH -n 10
 #SBATCH --time 00-48:00:00    # time (D-HH:MM:SS)
